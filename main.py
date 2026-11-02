@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 
@@ -8,11 +7,11 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, W)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, H)
 
-lower_blue = np.array([90, 50, 40])
-upper_blue = np.array([130, 255, 255])
+lower_green = np.array([35, 52, 72])
+upper_green = np.array([85, 255, 255])
 
 previous_position = None
-movement_threshold = 10 
+movement_threshold = 5 
 notification_cooldown = 0
 frame_count = 0
 
@@ -25,7 +24,7 @@ while True:
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    mask = cv2.inRange(hsv, lower_green, upper_green)
 
     mask = cv2.morphologyEx(
         mask, cv2.MORPH_OPEN,
@@ -47,7 +46,7 @@ while True:
             largest_area = area
             largest_contour = contour
 
-    status = "No blue detected"
+    status = "No green detected"
 
     if largest_contour is not None:
         x, y, w, h = cv2.boundingRect(largest_contour)
@@ -84,13 +83,13 @@ while True:
 
                 if notification_cooldown == 0:
                     print(
-                        f"Blue moved! "
+                        f"Green moved! "
                         f"Position: ({cx}, {cy}), "
                         f"Movement: {distance:.1f} pixels"
                     )
                     notification_cooldown = 10
             else:
-                status = "Blue stationary"
+                status = "Green stationary"
 
         previous_position = current_position
 
@@ -108,8 +107,8 @@ while True:
         else (255, 255, 255), 2
     )
 
-    cv2.imshow("Blue Object Tracking", frame)
-    cv2.imshow("Blue Detection Mask", mask)
+    cv2.imshow("Green Object Tracking", frame)
+    cv2.imshow("Green Detection Mask", mask)
 
     # Press Q to quit
     if cv2.waitKey(1) & 0xFF == ord("q"):
