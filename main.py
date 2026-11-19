@@ -112,35 +112,8 @@ REQUIRED_MISSING_FRAMES = 5
 
 
 # ============================================================
-# LOAD SAVED APRILTAG REFERENCE
-# ============================================================
-
-if REFERENCE_FILE.exists():
-
-    try:
-
-        with open(REFERENCE_FILE, "r") as file:
-            saved_data = json.load(file)
-
-        if saved_data.get("tag_family") == TAG_FAMILY:
-
-            reference_id = int(saved_data["reference_id"])
-            reference_saved = True
-
-            print(f"Loaded reference AprilTag ID: {reference_id}")
-            print("Show the reference tag, then remove it to begin scanning.")
-
-    except (OSError, ValueError, KeyError, json.JSONDecodeError):
-
-        print("Could not load saved AprilTag. A new reference will be learned.")
-
-
-# ============================================================
 # MAIN VISION SYSTEM
 # ============================================================
-
-print("Green Flag and AprilTag Vision System Started.")
-print("Press Q in the camera window to quit.")
 
 try:
 
@@ -424,12 +397,7 @@ try:
             2
         )
 
-
-
-        # Press Q to quit.
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-
-            break
+        cv2.imshow("Wildcats Vision System", frame)
 
 
 # ============================================================
