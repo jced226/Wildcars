@@ -397,7 +397,10 @@ try:
             2
         )
 
-        cv2.imshow("Wildcats Vision System", frame)
+        # Press Q to quit.
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+
+            break
 
 
 # ============================================================
